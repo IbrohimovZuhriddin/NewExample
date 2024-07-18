@@ -1,0 +1,72 @@
+##server:
+##  port: 8675
+#
+##spring:
+##  application:
+##    name: STRIPE-SERVICE
+#
+#  profiles:
+#    active: local
+#
+##  datasource:
+##    url: jdbc:postgresql://localhost:5432/OctoBankDB
+##    username: OctoBankUser
+##    driver-class-name: org.postgresql.Driver
+##    password: password
+#
+##  jpa:
+##    database: postgresql
+##    generate-ddl: true
+##    hibernate:
+##      ddl-auto: update
+##    properties:
+##      hibernate:
+##        dialect: org.hibernate.dialect.PostgreSQLDialect
+##        temp:
+##          use_jdbc_metadata_defaults: false
+##      show-sql: true
+##  sql:
+##    init:
+##      encoding: UTF-8
+#
+axon:
+  axonserver:
+#    componentName: OCTOBANK-SERVICE
+#
+##    context: payment
+  serializer:
+    messages: jackson
+    general: jackson
+    events: jackson
+
+#
+logging:
+#  file:
+#    name: /home/stripe.log
+#  level:
+#    com:
+#      googlecode:
+#        jsonrpc4j: DEBUG
+#    org:
+#      axonframework: ERROR
+#      hibernate: ERROR
+#      springframework: ERROR
+      thymeleaf: 'off'
+#      w3c: 'off'
+#      xhtmlrenderer:
+#        pdf: 'off'
+#    reactor:
+#      core: 'off'
+#      ipc:
+#        netty: 'off'
+#      netty: 'off'
+#    uz:
+#      axonlogic: DEBUG
+#  logback:
+#    rollingpolicy:
+#      max-file-size: 1GB
+#  pattern:
+#    console: '%d{yyyy-MM-dd HH:mm:ss} - %magenta([%thread]) %highlight(%-5level)
+#            %logger.%M - %msg%n'
+#    file: '%d{yyyy-MM-dd HH:mm:ss} - %magenta([%thread]) %highlight(%-5level)
+#            %logger.%M - %msg%n'
