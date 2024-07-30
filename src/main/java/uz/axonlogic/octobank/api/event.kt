@@ -1,17 +1,6 @@
 package uz.axonlogic.octobank.api
 
 import uz.axonlogic.octobank.api.id.OctoBankId
-import java.math.BigDecimal
-
-//data class CreateOctoBankEvent(
-//    val octoBankId: String,
-//
-//    val orderId: String,
-//    var paymentId: String,
-//    var userId: String,
-//    var expressIds: String,
-//    val totalCost: BigDecimal,
-//)
 
 data class ConfirmPaymentEvent (
     val octoBankId: OctoBankId,
@@ -28,5 +17,11 @@ data class ConfirmPaymentSuccededEvent (
 
 data class ConfirmPaymentFailedEvent (
     val octoBankId: OctoBankId,
-    var response: Any
+    var response: Any,
+    val idError: Int
+)
+
+data class AdditionalEvent(
+    val octoBankId: OctoBankId,
+    val idError: Int
 )

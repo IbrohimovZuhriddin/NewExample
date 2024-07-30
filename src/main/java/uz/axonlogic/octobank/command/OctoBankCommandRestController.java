@@ -21,17 +21,9 @@ public class OctoBankCommandRestController {
         this.commandGateway=commandGateway;
     }
 
-//    @PostMapping(path = "/webhooks")
-//    public Mono<ResponseEntity <?> > webhooks(@RequestBody String payload) {
-//        log.info ("Come" + payload);
-//        return Mono.just (ResponseEntity.status(HttpStatus.OK).build() );
-//    }
-
     @PostMapping(path = "/confirm")
     public void confirmPayment ( @RequestBody ConfirmPaymentCommand command){
       log.info("Comfirm payment: " + command);
       commandGateway.send ( command );
     }
-
-
 }

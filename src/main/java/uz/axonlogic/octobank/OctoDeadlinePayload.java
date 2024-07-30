@@ -12,5 +12,4 @@ public class OctoDeadlinePayload {
     private final OctoBankId id;
 
 
-
 }

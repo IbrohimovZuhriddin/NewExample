@@ -4,9 +4,9 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier
 import uz.axonlogic.octobank.api.id.OctoBankId
 import uz.axonlogic.octobank.api.vObject.ConfirmPaymentResponse
 
-abstract class OctobankCommand( @TargetAggregateIdentifier open val octoBankId: OctoBankId)
+abstract class OctobankCommand ( @TargetAggregateIdentifier open val octoBankId: OctoBankId)
 
-data class ConfirmPaymentCommand(
+data class ConfirmPaymentCommand (
     override val octoBankId: OctoBankId = OctoBankId(),
     val octo_shop_id: Int,
     val octo_secret: String,
@@ -22,3 +22,8 @@ data class SetConfirmPaymeCommand(
 data class LetS (
   override val octoBankId: OctoBankId
 ) : OctobankCommand ( octoBankId )
+
+data class AdditionalCommand (
+   override val octoBankId: OctoBankId,
+    val idError :Int
+): OctobankCommand ( octoBankId )

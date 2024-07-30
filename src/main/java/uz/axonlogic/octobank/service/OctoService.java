@@ -1,14 +1,12 @@
 package uz.axonlogic.octobank.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import uz.axonlogic.octobank.api.ConfirmPaymentEvent;
 import uz.axonlogic.octobank.api.vObject.ConfirmPaymentResponse;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +14,6 @@ import java.util.Map;
 public class OctoService {
 
     @Autowired
-//    @Qualifier("sslRestTemplate")
     private RestTemplate restTemplate;
 
     public ConfirmPaymentResponse sendToOctoRes(ConfirmPaymentEvent event) {
@@ -33,11 +30,10 @@ public class OctoService {
         ConfirmPaymentResponse response = null;
 
         try {
-             response = restTemplate.postForObject(url, requestEntity, ConfirmPaymentResponse.class);
+             response = restTemplate.postForObject (url, requestEntity, ConfirmPaymentResponse.class);
         } catch ( HttpServerErrorException.InternalServerError ex ) {
             ex.getMessage();
         }
-
         return response;
     }
 }

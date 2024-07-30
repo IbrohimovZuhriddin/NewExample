@@ -4,13 +4,12 @@ import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import uz.axonlogic.octobank.api.ConfirmPaymentEvent;
-import uz.axonlogic.octobank.api.SetConfirmPaymeCommand;
+import uz.axonlogic.octobank.api.*;
 import uz.axonlogic.octobank.api.vObject.ConfirmPaymentResponse;
 import uz.axonlogic.octobank.service.OctoService;
 
 @Component
-public class OctoSaga {
+public class OctoRouter {
 
     @Autowired
     private OctoService service;
@@ -26,6 +25,12 @@ public class OctoSaga {
         System.out.println(response);
         System.out.println("event.getOctoBankId()" + event.getOctoBankId() );
         commandGateway.send ( new SetConfirmPaymeCommand ( event.getOctoBankId(), response ) );
+    }
+
+    @EventHandler
+    public void handle (ConfirmPaymentFailedEvent event) {
+        System.out.println("ConfirmPaymentFailedEvent keldi sagaga :" + event);
+        commandGateway.send( new AdditionalCommand(event.getOctoBankId(),event.getIdError() ) );
     }
 
 }

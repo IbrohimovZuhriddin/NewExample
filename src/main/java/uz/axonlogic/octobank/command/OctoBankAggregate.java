@@ -6,17 +6,16 @@ import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.spring.stereotype.Aggregate;
 import uz.axonlogic.octobank.api.*;
 import uz.axonlogic.octobank.api.id.OctoBankId;
-import java.util.UUID;
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
 @Aggregate
-public class OctoBankAggregate {
+public class OctoBankAggregate  {
 
     @AggregateIdentifier
     private OctoBankId id;
-    private UUID id21;
+    private Integer idError;
 
-    public OctoBankAggregate ( ) {  }
+    public OctoBankAggregate ( ) { }
 
     @CommandHandler
     public OctoBankAggregate ( ConfirmPaymentCommand command ) {
@@ -26,24 +25,21 @@ public class OctoBankAggregate {
     }
 
     @EventSourcingHandler
-    public  void on ( ConfirmPaymentEvent event) {
+    public void on ( ConfirmPaymentEvent event) {
+        System.out.println("agreggateda->" + event);
         this.id = event.getOctoBankId();
-//        System.out.println ( "this.id from ConfirmPayment  " + this.id );
     }
 
     @CommandHandler
     public void handle ( SetConfirmPaymeCommand command) {
-
         System.out.println("SetConfirmPaymeCommand keldi: " + command );
         System.out.println("this.id:" + this.id);
         System.out.println("command.getResponse().getError():" + command.getResponse().getError());
 
-
         if ( command.getResponse().getError() == 0 )  {
-
             apply (new ConfirmPaymentSuccededEvent( command.getOctoBankId(), command.getResponse()));
         } else  if (command.getResponse().getError() == 2)  {
-            apply (new ConfirmPaymentFailedEvent( command.getOctoBankId(), command.getResponse()));
+            apply (new ConfirmPaymentFailedEvent( command.getOctoBankId(), command.getResponse(), command.getResponse().getError() ));
         }
     }
 
@@ -54,7 +50,15 @@ public class OctoBankAggregate {
 
     @EventSourcingHandler
     public void on ( ConfirmPaymentFailedEvent event ) {
-//        this.deadlineId = deadlineManager.schedule(Duration.ofMinutes(3), "confirmPayment", new OctoDeadlinePayload(id));
+        this.idError = event.getIdError();
     }
 
+    @CommandHandler
+    public void handle( AdditionalCommand command ){
+        System.out.println("AdditionalCommand KELDI:" + command);
+        apply (new AdditionalEvent (command.getOctoBankId(), command.getIdError() ));
+    }
+
+    @EventSourcingHandler
+    public void handle (AdditionalEvent event){ }
 }
